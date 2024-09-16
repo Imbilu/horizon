@@ -21,9 +21,13 @@ import CustomInput from "./CustomInput";
 import { authFormSchema } from "@/lib/utils";
 import { Loader2 } from "lucide-react";
 import { Nanum_Brush_Script } from "next/font/google";
+import SignIn from "@/app/(auth)/sign-in/page";
+import { useRouter } from "next/navigation";
+import { signIn, signUp } from "@/lib/actions/user.actions";
 
 function AuthForm({ type }: { type: string }) {
     const formSchema = authFormSchema(type);
+    const router = useRouter();
 
     // 1. Define your form.
     const form = useForm<z.infer<typeof formSchema>>({
@@ -36,13 +40,30 @@ function AuthForm({ type }: { type: string }) {
     });
 
     // 2. Define a submit handler.
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        // Do something with the form values.
+    const onSubmit = async (data: z.infer<typeof formSchema>) => {
         // ✅ This will be type-safe and validated.
         setIsLoading(true);
-        console.log(values);
-        setIsLoading(false);
-    }
+        try {
+            // sign up with appwrite
+            // create a plaid link token
+            if (type === "sign-up") {
+                const newUser = await signUp(data);
+                setUser(newUser);
+            } else if (type === "sign-in") {
+                const res = await signIn({
+                    email: data.email,
+                    password: data.password,
+                });
+                if (res) {
+                    router.push("/");
+                }
+            }
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
     const [user, setUser] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
@@ -90,14 +111,14 @@ function AuthForm({ type }: { type: string }) {
                                     <CustomInput
                                         control={form.control}
                                         label="First Name"
-                                        name="firstname"
+                                        name="firstName"
                                         type="text"
                                         placeholder="First Name"
                                     />
                                     <CustomInput
                                         control={form.control}
                                         label="Last Name"
-                                        name="lastname"
+                                        name="lastName"
                                         type="text"
                                         placeholder="Last Name"
                                     />
@@ -112,8 +133,15 @@ function AuthForm({ type }: { type: string }) {
                                 <div className="flex gap-4">
                                     <CustomInput
                                         control={form.control}
-                                        label="City"
+                                        label="Country"
                                         name="state"
+                                        type="text"
+                                        placeholder="Country"
+                                    />
+                                    <CustomInput
+                                        control={form.control}
+                                        label="City"
+                                        name="city"
                                         type="text"
                                         placeholder="ex: NY"
                                     />
@@ -153,13 +181,6 @@ function AuthForm({ type }: { type: string }) {
                                 name="email"
                                 type="email"
                                 placeholder="Email"
-                            />
-                            <CustomInput
-                                control={form.control}
-                                label="Username"
-                                name="username"
-                                type="text"
-                                placeholder="Username"
                             />
                             <CustomInput
                                 control={form.control}
