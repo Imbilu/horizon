@@ -24,6 +24,7 @@ import { Nanum_Brush_Script } from "next/font/google";
 import SignIn from "@/app/(auth)/sign-in/page";
 import { useRouter } from "next/navigation";
 import { signIn, signUp } from "@/lib/actions/user.actions";
+import PlaidLink from "./PlaidLink";
 
 function AuthForm({ type }: { type: string }) {
     const formSchema = authFormSchema(type);
@@ -101,7 +102,9 @@ function AuthForm({ type }: { type: string }) {
                 </div>
             </header>
             {user ? (
-                <div className="flex flex-col gap-4">Plaidlink</div>
+                <div className="flex flex-col gap-4">
+                    <PlaidLink user={user} variant="primary" />
+                </div>
             ) : (
                 <>
                     <Form {...form}>
