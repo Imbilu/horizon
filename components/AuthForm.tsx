@@ -47,8 +47,20 @@ function AuthForm({ type }: { type: string }) {
         try {
             // sign up with appwrite
             // create a plaid link token
+            const userData = {
+                firstName: data.firstName!,
+                lastName: data.lastName!,
+                address1: data.address1!,
+                city: data.city!,
+                state: data.state!,
+                postalCode: data.postalCode!,
+                dateOfBirth: data.dateOfBirth!,
+                ssn: data.ssn!,
+                email: data.email!,
+                password: data.password,
+            };
             if (type === "sign-up") {
-                const newUser = await signUp(data);
+                const newUser = await signUp(userData);
                 setUser(newUser);
             } else if (type === "sign-in") {
                 const res = await signIn({
@@ -167,7 +179,7 @@ function AuthForm({ type }: { type: string }) {
                                     <CustomInput
                                         control={form.control}
                                         label="ID Number"
-                                        name="idNumber"
+                                        name="ssn"
                                         type="text"
                                         placeholder="ID No."
                                     />
