@@ -21,7 +21,8 @@ function PlaidLink({ user, variant }: PlaidLinkProps) {
             const data = await createLinkToken(user);
             setToken(data?.linkToken);
         };
-    }, []);
+        getLinkToken();
+    }, [user]);
 
     const onSuccess = useCallback<PlaidLinkOnSuccess>(
         async (public_token: string) => {

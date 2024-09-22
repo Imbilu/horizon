@@ -12,9 +12,7 @@ async function Home({ searchParams: { id, page } }: SearchParamProps) {
     const accounts = await getAccounts({ userId: loggedIn.$id });
     if (!accounts) return;
 
-    console.log("accounts", accounts);
     const appwriteItemId = (id as string) || accounts?.data[0]?.appwriteItemId;
-    console.log("app id:", appwriteItemId);
     const account = await getAccount({ appwriteItemId });
 
     return (

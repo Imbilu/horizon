@@ -41,7 +41,7 @@ function RightSidebar({ user, transactions, banks }: RightSidebarProps) {
                             {" "}
                             <BankCard
                                 key={banks[0].$id}
-                                account={banks[0]}
+                                account={banks[0][0]}
                                 userName={`${user.firstName}`}
                                 showBalance={false}
                             />
@@ -50,7 +50,7 @@ function RightSidebar({ user, transactions, banks }: RightSidebarProps) {
                             <div className="absolute right-0 top-8 z-0 w-[90%]">
                                 <BankCard
                                     key={banks[1].$id}
-                                    account={banks[1]}
+                                    account={banks[1][0]}
                                     userName={`${user.firstName}`}
                                     showBalance={false}
                                 />

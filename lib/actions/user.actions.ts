@@ -160,7 +160,7 @@ export const createBankAccount = async ({
     accountId,
     accessToken,
     fundingSourceUrl,
-    sharableId,
+    shareableId,
 }: createBankAccountProps) => {
     try {
         const { database } = await createAdminClient();
@@ -175,7 +175,7 @@ export const createBankAccount = async ({
                 accountId,
                 accessToken,
                 fundingSourceUrl,
-                sharableId,
+                shareableId,
             }
         );
 
@@ -232,7 +232,7 @@ export const exchangePublicToken = async ({
             accountId: accountData.account_id,
             accessToken,
             fundingSourceUrl,
-            sharableId: encryptId(accountData.account_id),
+            shareableId: encryptId(accountData.account_id),
         });
 
         // Revalidate the path to reflect the changes
@@ -265,12 +265,29 @@ export const getBank = async ({ documentId }: getBankProps) => {
     try {
         const { database } = await createAdminClient();
         const query = [Query.equal("$id", [documentId])];
-        console.log(query);
         const bank = await database.listDocuments(
             DATABASE_ID!,
             BANK_COLLECTION_ID!,
             query
         );
+        return parseStringify(bank.documents[0]);
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const getBankByAccountId = async ({
+    accountId,
+}: getBankByAccountIdProps) => {
+    try {
+        const { database } = await createAdminClient();
+        const query = [Query.equal("accountId", [accountId])];
+        const bank = await database.listDocuments(
+            DATABASE_ID!,
+            BANK_COLLECTION_ID!,
+            query
+        );
+        if (bank.total !== 1) return null;
         return parseStringify(bank.documents[0]);
     } catch (error) {
         console.log(error);
