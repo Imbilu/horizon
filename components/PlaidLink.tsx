@@ -1,11 +1,16 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Button } from "./ui/button";
-import { PlaidLinkOptions, usePlaidLink } from "react-plaid-link";
+import {
+    PlaidLinkOnSuccess,
+    PlaidLinkOptions,
+    usePlaidLink,
+} from "react-plaid-link";
 import { useRouter } from "next/navigation";
 import {
     createLinkToken,
     exchangePublicToken,
 } from "@/lib/actions/user.actions";
+import Image from "next/image";
 
 function PlaidLink({ user, variant }: PlaidLinkProps) {
     const router = useRouter();
@@ -18,7 +23,7 @@ function PlaidLink({ user, variant }: PlaidLinkProps) {
         };
     }, []);
 
-    const onSuccess = useCallback(
+    const onSuccess = useCallback<PlaidLinkOnSuccess>(
         async (public_token: string) => {
             await exchangePublicToken({ publicToken: public_token, user });
             router.push("/");
@@ -45,9 +50,36 @@ function PlaidLink({ user, variant }: PlaidLinkProps) {
                         Connect bank
                     </Button>
                 ) : variant === "ghost" ? (
-                    <Button>Connect Bank</Button>
+                    <Button
+                        onClick={() => open()}
+                        className="plaidlink-ghost"
+                        variant="ghost"
+                    >
+                        <Image
+                            src="icons/connect-bank.svg"
+                            alt="connect bank"
+                            width={24}
+                            height={24}
+                        />
+                        <p className="hidden font-semibold text-[16px] text-black-2 xl:block">
+                            Connect Bank
+                        </p>
+                    </Button>
                 ) : (
-                    <Button>Connect Bank</Button>
+                    <Button
+                        className="plaidlink-default"
+                        onClick={() => open()}
+                    >
+                        <Image
+                            src="icons/connect-bank.svg"
+                            alt="connect bank"
+                            width={24}
+                            height={24}
+                        />
+                        <p className="font-semibold text-[16px] text-black-2">
+                            Connect Bank
+                        </p>
+                    </Button>
                 )}
             </>
         </div>
