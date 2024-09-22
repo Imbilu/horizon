@@ -148,10 +148,10 @@ function AuthForm({ type }: { type: string }) {
                                 <div className="flex gap-4">
                                     <CustomInput
                                         control={form.control}
-                                        label="Country"
+                                        label="State"
                                         name="state"
                                         type="text"
-                                        placeholder="Country"
+                                        placeholder="State ex: CA"
                                     />
                                     <CustomInput
                                         control={form.control}
@@ -178,7 +178,7 @@ function AuthForm({ type }: { type: string }) {
                                     />
                                     <CustomInput
                                         control={form.control}
-                                        label="ID Number"
+                                        label="Social Security Number"
                                         name="ssn"
                                         type="text"
                                         placeholder="ID No."
