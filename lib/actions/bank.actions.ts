@@ -62,8 +62,8 @@ export const getAccounts = async ({ userId }: getAccountsProps) => {
             totalBanks,
             totalCurrentBalance,
         });
-    } catch (error: any) {
-        return { error: "Failed to fetch accounts: " + error.message };
+    } catch (error) {
+        console.error("An error occurred while getting the accounts:", error);
     }
 };
 
@@ -128,8 +128,8 @@ export const getAccount = async ({ appwriteItemId }: getAccountProps) => {
             data: account,
             transactions: allTransactions,
         });
-    } catch (error: any) {
-        return { error: "Failed to fetch account details: " + error.message };
+    } catch (error) {
+        console.error("An error occurred while getting the account:", error);
     }
 };
 
@@ -146,10 +146,8 @@ export const getInstitution = async ({
         const intitution = institutionResponse.data.institution;
 
         return parseStringify(intitution);
-    } catch (error: any) {
-        return {
-            error: "Failed to fetch institution details: " + error.message,
-        };
+    } catch (error) {
+        console.error("An error occurred while getting the accounts:", error);
     }
 };
 
@@ -186,8 +184,8 @@ export const getTransactions = async ({
         }
 
         return parseStringify(transactions);
-    } catch (error: any) {
-        return { error: "Failed to fetch transactions: " + error.message };
+    } catch (error) {
+        console.error("An error occurred while getting the accounts:", error);
     }
 };
 
@@ -223,7 +221,10 @@ export const createTransfer = async () => {
 
         const transfer = responseCreateResponse.data.transfer;
         return parseStringify(transfer);
-    } catch (error: any) {
-        return { error: "Failed to create transfer: " + error.message };
+    } catch (error) {
+        console.error(
+            "An error occurred while creating transfer authorization:",
+            error
+        );
     }
 };
