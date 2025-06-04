@@ -6,7 +6,7 @@ import React from "react";
 
 async function MyBanks() {
     const loggedIn = await getLoggedInUser();
-    const accounts = await getAccounts({ userId: loggedIn?.userId });
+    const accounts = await getAccounts({ userId: loggedIn?.$id });
 
     // Check for errors from the getAccounts action
     if (accounts && "error" in accounts) {
